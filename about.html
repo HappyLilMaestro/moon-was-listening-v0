@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About · The Moon Was Listening</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Caveat:wght@400;500;600&family=Inter+Tight:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+/* About page specific */
+.about-hero {
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: 80px;
+  align-items: center;
+  min-height: 92vh;
+  padding: 60px 0 80px;
+}
+.about-label {
+  font-family: var(--hand);
+  font-size: 24px;
+  color: var(--blush);
+  margin-bottom: 14px;
+  opacity: 0;
+  animation: fadeUp 1.2s 0.3s ease forwards;
+}
+.about-title {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 300;
+  font-size: clamp(48px, 6vw, 84px);
+  line-height: 1.02;
+  color: var(--ivory);
+  margin: 0 0 40px;
+  letter-spacing: -0.015em;
+  opacity: 0;
+  animation: fadeUp 1.4s 0.6s ease forwards;
+}
+.about-title .hand {
+  font-family: var(--hand);
+  font-style: normal;
+  color: var(--blush);
+  font-size: 0.82em;
+  font-weight: 500;
+  display: block;
+  margin-top: 12px;
+}
+
+.about-body {
+  font-family: var(--serif);
+  font-size: 21px;
+  line-height: 1.75;
+  color: var(--ink);
+  font-weight: 300;
+  max-width: 55ch;
+  text-wrap: pretty;
+}
+.about-body p {
+  margin: 0 0 24px;
+  opacity: 0;
+  animation: fadeUp 1.2s ease forwards;
+}
+.about-body p:nth-child(1) { animation-delay: 0.9s; }
+.about-body p:nth-child(2) { animation-delay: 1.1s; }
+.about-body p:nth-child(3) { animation-delay: 1.3s; }
+.about-body p:nth-child(4) { animation-delay: 1.5s; }
+.about-body em { color: var(--ivory); font-style: italic; }
+
+.about-portrait {
+  position: relative;
+  aspect-ratio: 4/5;
+  max-width: 520px;
+  margin: 0 auto;
+  border-radius: 6px;
+  overflow: hidden;
+  opacity: 0;
+  animation: fadeIn 2s 0.3s ease forwards;
+  background:
+    radial-gradient(ellipse at 50% 30%, rgba(232, 213, 208, 0.18), transparent 60%),
+    linear-gradient(180deg, #1a2340 0%, #0b1428 100%);
+  border: 1px solid rgba(244, 239, 230, 0.12);
+  box-shadow: 0 40px 120px rgba(0,0,0,0.5);
+}
+.about-portrait::before {
+  /* stars */
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(1px 1px at 15% 20%, #fff, transparent),
+    radial-gradient(1px 1px at 80% 30%, #fff, transparent),
+    radial-gradient(1px 1px at 40% 15%, #fff, transparent),
+    radial-gradient(1px 1px at 65% 55%, #fff, transparent),
+    radial-gradient(1px 1px at 20% 70%, #fff, transparent),
+    radial-gradient(1px 1px at 90% 80%, #fff, transparent),
+    radial-gradient(1.2px 1.2px at 50% 88%, #fff, transparent);
+  opacity: 0.7;
+}
+.about-portrait .portrait-moon {
+  position: absolute;
+  top: 12%; right: 14%;
+  width: 160px; aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #fffaf0, #f4efe6 35%, #d4d9e8 75%, #9ba8bf);
+  box-shadow: 0 0 80px rgba(244, 239, 230, 0.5), inset -14px -20px 40px rgba(20, 30, 60, 0.5);
+  animation: breathe 7s ease-in-out infinite;
+}
+.about-portrait .portrait-stripes {
+  position: absolute;
+  inset: 50% 8% 8% 8%;
+  border-radius: 4px;
+  background:
+    repeating-linear-gradient(
+      -45deg,
+      rgba(244, 239, 230, 0.06),
+      rgba(244, 239, 230, 0.06) 8px,
+      rgba(244, 239, 230, 0.02) 8px,
+      rgba(244, 239, 230, 0.02) 16px
+    );
+  border: 1px solid rgba(244, 239, 230, 0.1);
+  display: grid;
+  place-items: center;
+}
+.about-portrait .portrait-stripes .label {
+  font-family: var(--sans);
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(244, 239, 230, 0.55);
+  text-align: center;
+  line-height: 1.8;
+}
+.about-portrait .caption {
+  position: absolute;
+  bottom: 20px; left: 24px; right: 24px;
+  font-family: var(--hand);
+  font-size: 22px;
+  color: rgba(244, 239, 230, 0.85);
+  text-align: center;
+  text-shadow: 0 0 12px rgba(0,0,0,0.7);
+  display: none;
+}
+
+/* Two worlds section */
+.two-worlds {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  margin-top: 40px;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid rgba(244, 239, 230, 0.1);
+  background: rgba(244, 239, 230, 0.1);
+}
+.world {
+  padding: 56px 48px;
+  position: relative;
+  min-height: 360px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 32px;
+}
+.world.day {
+  background:
+    radial-gradient(ellipse at 30% 20%, rgba(232, 213, 208, 0.15), transparent 60%),
+    linear-gradient(180deg, #1c2338 0%, #141c30 100%);
+}
+.world.night {
+  background:
+    radial-gradient(ellipse at 70% 80%, rgba(155, 168, 191, 0.18), transparent 60%),
+    linear-gradient(180deg, #0a1124 0%, #05091a 100%);
+}
+.world .time-label {
+  font-family: var(--hand);
+  font-size: 28px;
+  color: var(--blush);
+}
+.world .world-body {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 22px;
+  line-height: 1.55;
+  color: var(--ivory);
+  font-weight: 300;
+  max-width: 32ch;
+  text-wrap: pretty;
+}
+.world .tag-line {
+  font-family: var(--sans);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+.world .tiny-sun, .world .tiny-moon {
+  position: absolute;
+  top: 40px; right: 44px;
+  width: 56px; aspect-ratio: 1;
+  border-radius: 50%;
+}
+.world .tiny-sun {
+  background: radial-gradient(circle at 40% 40%, #f9e6cc, #e8d5d0 55%, #c9a98f 100%);
+  box-shadow: 0 0 40px rgba(232, 213, 208, 0.4);
+}
+.world .tiny-moon {
+  background: radial-gradient(circle at 35% 35%, #fffaf0, #f4efe6 35%, #d4d9e8 75%, #9ba8bf);
+  box-shadow: 0 0 40px rgba(244, 239, 230, 0.45), inset -6px -8px 14px rgba(20, 30, 60, 0.4);
+  animation: breathe 6s ease-in-out infinite;
+}
+
+/* Closing */
+.about-close {
+  text-align: center;
+  padding: 40px 20px 20px;
+}
+.about-close .close-line {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: clamp(28px, 3vw, 40px);
+  line-height: 1.35;
+  color: var(--ivory);
+  max-width: 24ch;
+  margin: 0 auto 32px;
+  font-weight: 300;
+  text-wrap: pretty;
+}
+.about-close .close-line em {
+  font-family: var(--hand);
+  font-style: normal;
+  color: var(--blush);
+  font-size: 1.1em;
+}
+.about-close .sig {
+  font-family: var(--hand);
+  font-size: 36px;
+  color: var(--blush);
+  margin-top: 8px;
+}
+
+/* Small facts row */
+.facts-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  margin-top: 60px;
+  background: rgba(244, 239, 230, 0.08);
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid rgba(244, 239, 230, 0.08);
+}
+.fact {
+  background: rgba(11, 20, 40, 0.9);
+  padding: 32px 28px;
+}
+.fact .f-label {
+  font-family: var(--sans);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin-bottom: 14px;
+}
+.fact .f-value {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 22px;
+  color: var(--ivory);
+  line-height: 1.35;
+  font-weight: 300;
+}
+.fact .f-value .hand {
+  font-family: var(--hand);
+  font-style: normal;
+  color: var(--blush);
+}
+
+@media (max-width: 960px) {
+  .about-hero { grid-template-columns: 1fr; gap: 48px; padding-top: 32px; min-height: auto; }
+  .about-portrait { order: -1; max-width: 340px; }
+  .two-worlds { grid-template-columns: 1fr; }
+  .facts-row { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div class="starfield" id="starfield"></div>
+
+<div class="page">
+
+  <nav class="top">
+    <a href="index.html" class="brand">the moon was listening</a>
+    <div class="links">
+      <a href="index.html">Home</a>
+      <a href="index.html#letters">Letters to the Moon</a>
+      <a href="workbench.html">Workbench</a>
+      <a href="#" class="active">About</a>
+      <a href="#">Say hello</a>
+    </div>
+  </nav>
+
+  <section class="about-hero">
+    <div>
+      <div class="about-label">— an introduction</div>
+      <h1 class="about-title">
+        She spoke<br>
+        to the <em>moon.</em>
+        <span class="hand">and the moon spoke back.</span>
+      </h1>
+      <div class="about-body">
+        <p>
+          I'm <em>Pooja Desai</em> — a marketeer, storyteller, and lifelong
+          lover of the moon. I don't always speak my thoughts aloud,
+          but I carry a universe of them inside me.
+        </p>
+        <p>
+          Through paintings, writings, photography, and creative projects,
+          I find ways to give those thoughts life.
+        </p>
+        <p>
+          This space is a reflection of my world — part diary, part
+          portfolio, part quiet corner where curiosity, creativity,
+          and connection meet.
+        </p>
+      </div>
+    </div>
+
+    <div class="about-portrait">
+      <div class="portrait-moon"></div>
+      <div class="portrait-stripes">
+        <div class="label">
+          portrait<br>
+          ( to be placed )
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"><span class="line"></span><span class="glyph">✦</span><span class="line"></span></div>
+
+  <section>
+    <div style="max-width: 640px;">
+      <span class="section-label">by day / by night</span>
+      <h2 class="section-title">Two worlds,<br>one quiet life between them.</h2>
+    </div>
+
+    <div class="two-worlds">
+      <div class="world day">
+        <div class="tiny-sun"></div>
+        <div class="time-label">by day,</div>
+        <p class="world-body">
+          I work in technology and communications — helping brands
+          tell their stories.
+        </p>
+        <div class="tag-line">marketing · pr · brand storytelling</div>
+      </div>
+      <div class="world night">
+        <div class="tiny-moon"></div>
+        <div class="time-label">by night,</div>
+        <p class="world-body">
+          I follow the moon — capturing its light, sketching its shapes,
+          and listening to the quiet inside.
+        </p>
+        <div class="tag-line">writing · painting · photography</div>
+      </div>
+    </div>
+
+    <div class="facts-row">
+      <div class="fact">
+        <div class="f-label">Where you'll find me</div>
+        <div class="f-value">on a rooftop,<br><span class="hand">looking up.</span></div>
+      </div>
+      <div class="fact">
+        <div class="f-label">What I collect</div>
+        <div class="f-value">moons, strays,<br>and small, <em>true</em> things.</div>
+      </div>
+      <div class="fact">
+        <div class="f-label">What I'm quietly making</div>
+        <div class="f-value">this place,<br><span class="hand">slowly.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"><span class="line"></span><span class="glyph">✦</span><span class="line"></span></div>
+
+  <section class="about-close">
+    <p class="close-line">
+      This site is where <em>both</em> worlds meet.
+    </p>
+    <a href="index.html#letters" class="btn primary">Send a whisper <span class="arrow">✦</span></a>
+    <div class="sig">— Pooja</div>
+  </section>
+
+  <footer class="bottom">
+    <div class="foot-brand">Pooja Desai</div>
+    <div class="foot-line">A quiet place for thoughts, creativity, and moonlit reflections.</div>
+    <div>© 2026 · handwritten in moonlight</div>
+  </footer>
+</div>
+
+<script>
+(function() {
+  const field = document.getElementById('starfield');
+  const count = 140;
+  const sizes = ['small', '', 'large'];
+  for (let i = 0; i < count; i++) {
+    const star = document.createElement('div');
+    const sz = sizes[Math.floor(Math.random() * sizes.length)];
+    star.className = 'star' + (sz ? ' ' + sz : '');
+    star.style.left = Math.random() * 100 + '%';
+    star.style.top = Math.random() * 100 + '%';
+    star.style.animationDuration = (3 + Math.random() * 5) + 's';
+    star.style.animationDelay = (Math.random() * 6) + 's';
+    star.style.setProperty('--star-op', 0.3 + Math.random() * 0.5);
+    field.appendChild(star);
+  }
+})();
+</script>
+
+</body>
+</html>

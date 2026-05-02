@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Workbench · The Moon Was Listening</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Caveat:wght@400;500;600&family=Inter+Tight:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="workbench.css">
+</head>
+<body class="wb">
+
+<div class="starfield" id="starfield"></div>
+
+<div id="wb-root"></div>
+
+<div class="tweaks-panel wb-tweaks" id="tweaks">
+  <h4>Writing light</h4>
+  <div class="sub">switch the hour</div>
+  <div class="mode-toggle" style="width: 100%;">
+    <button id="mode-night" class="active" style="flex:1">Night</button>
+    <button id="mode-dawn" style="flex:1">Dawn</button>
+  </div>
+  <div style="margin-top: 18px; font-family: var(--serif); font-style: italic; color: var(--dim); font-size: 13px; line-height: 1.5;">
+    Night is for writing.<br>Dawn is for editing.
+  </div>
+</div>
+
+<script>
+const TWEAK_DEFAULS = /*EDITMODE-BEGIN*/{
+  "mode": "night"
+}/*EDITMODE-END*/;
+</script>
+
+<script>
+// Star field
+(function() {
+  const field = document.getElementById('starfield');
+  const count = 120;
+  const sizes = ['small', '', 'large'];
+  for (let i = 0; i < count; i++) {
+    const star = document.createElement('div');
+    const sz = sizes[Math.floor(Math.random() * sizes.length)];
+    star.className = 'star' + (sz ? ' ' + sz : '');
+    star.style.left = Math.random() * 100 + '%';
+    star.style.top = Math.random() * 100 + '%';
+    star.style.animationDuration = (3 + Math.random() * 5) + 's';
+    star.style.animationDelay = (Math.random() * 6) + 's';
+    star.style.setProperty('--star-op', 0.3 + Math.random() * 0.5);
+    field.appendChild(star);
+  }
+})();
+
+// Mode toggle
+function setMode(mode) {
+  document.body.classList.toggle('dawn', mode === 'dawn');
+  document.getElementById('mode-night').classList.toggle('active', mode === 'night');
+  document.getElementById('mode-dawn').classList.toggle('active', mode === 'dawn');
+}
+setMode(TWEAK_DEFAULS.mode || 'night');
+document.getElementById('mode-night').addEventListener('click', () => {
+  setMode('night');
+  window.parent.postMessage({ type: '__edit_mode_set_keys', edits: { mode: 'night' } }, '*');
+});
+document.getElementById('mode-dawn').addEventListener('click', () => {
+  setMode('dawn');
+  window.parent.postMessage({ type: '__edit_mode_set_keys', edits: { mode: 'dawn' } }, '*');
+});
+
+// Tweaks host protocol
+window.addEventListener('message', (e) => {
+  const d = e.data || {};
+  if (d.type === '__activate_edit_mode') document.getElementById('tweaks').classList.add('visible');
+  else if (d.type === '__deactivate_edit_mode') document.getElementById('tweaks').classList.remove('visible');
+});
+window.parent.postMessage({ type: '__edit_mode_available' }, '*');
+</script>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" src="workbench.jsx"></script>
+<script type="text/babel">
+  ReactDOM.createRoot(document.getElementById('wb-root')).render(<window.Workbench />);
+</script>
+
+</body>
+</html>

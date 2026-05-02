@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Moon Was Listening</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Caveat:wght@400;500;600&family=Inter+Tight:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- Drifting star field -->
+<div class="starfield" id="starfield"></div>
+
+<div class="page">
+
+  <!-- Top nav -->
+  <nav class="top">
+    <div class="brand">the moon was listening</div>
+    <div class="links">
+      <a class="active" href="#home">Home</a>
+      <a href="#letters">Letters to the Moon</a>
+      <a href="workbench.html">Workbench</a>
+      <a href="#">Journal</a>
+      <a href="#">Say hello</a>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero" id="home">
+    <div class="hero-copy">
+      <div class="eyebrow">a quiet corner of the internet</div>
+      <h1>
+        For everything<br>
+        you never said aloud —<br>
+        <em>the moon was listening.</em>
+      </h1>
+      <p class="lead">
+        Welcome. This is a personal space where creativity, curiosity, and reflection come to life —
+        from writings and paintings to the work I craft as a digital marketeer. A small, slow place
+        to pause, reflect, and perhaps see your own thoughts mirrored in mine.
+      </p>
+      <div class="cta-row">
+        <a href="#letters" class="btn primary">Whisper to the moon <span class="arrow">✦</span></a>
+        <a href="about.html" class="btn">About Pooja <span class="arrow">→</span></a>
+      </div>
+    </div>
+
+    <div class="hero-moon">
+      <div class="moon-wrap">
+        <div class="moon" id="hero-moon"></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"><span class="line"></span><span class="glyph">✦</span><span class="line"></span></div>
+
+  <!-- Letters constellation -->
+  <section id="letters">
+    <div style="max-width: 640px;">
+      <span class="section-label">whispers under the moon</span>
+      <h2 class="section-title">A constellation of things we couldn't say out loud.</h2>
+      <p class="section-intro">
+        Each light below is a letter someone wrote to the moon — a secret, a small joy, a goodbye.
+        Click any light to read. Add your own further down; the sky always has room.
+      </p>
+    </div>
+
+    <div id="gallery-root"></div>
+  </section>
+
+  <div class="divider"><span class="line"></span><span class="glyph">✦</span><span class="line"></span></div>
+
+  <!-- Submission -->
+  <section id="submit">
+    <div class="submit-section">
+      <div class="submit-copy">
+        <span class="section-label">your moonlight message</span>
+        <h2 class="section-title">Send a thought to the moon.</h2>
+        <p class="section-intro">
+          Not all thoughts are meant to be spoken aloud — some are better whispered to the night.
+          Share a feeling, a small story, a secret. Pair it with a moon photo if you like.
+          Sign your name, or remain one of the many under the same sky.
+        </p>
+        <p class="tagline">the moon hears all,<br>and never tells.</p>
+      </div>
+
+      <div id="submit-root"></div>
+    </div>
+  </section>
+
+  <div class="divider"><span class="line"></span><span class="glyph">✦</span><span class="line"></span></div>
+
+  <!-- Footer -->
+  <footer class="bottom">
+    <div class="foot-brand">Pooja Desai</div>
+    <div class="foot-line">A quiet place for thoughts, creativity, and moonlit reflections.</div>
+    <div>© 2026 · handwritten in moonlight</div>
+  </footer>
+</div>
+
+<!-- Tweaks panel -->
+<div class="tweaks-panel" id="tweaks">
+  <h4>Moon phase</h4>
+  <div class="sub">tonight's light</div>
+  <div class="phase-row">
+    <button class="phase-btn" data-phase="new">
+      <div class="p-moon" style="--pp-x: 50%; --pp-r: 48%; --pp-op: 0.98"></div>
+      <div class="p-label">New</div>
+    </button>
+    <button class="phase-btn" data-phase="crescent">
+      <div class="p-moon" style="--pp-x: 30%; --pp-r: 35%; --pp-op: 0.98"></div>
+      <div class="p-label">Crescent</div>
+    </button>
+    <button class="phase-btn" data-phase="half">
+      <div class="p-moon" style="--pp-x: 0%; --pp-r: 50%; --pp-op: 0.98"></div>
+      <div class="p-label">Half</div>
+    </button>
+    <button class="phase-btn active" data-phase="full">
+      <div class="p-moon"></div>
+      <div class="p-label">Full</div>
+    </button>
+  </div>
+</div>
+
+<!-- Tweaks defaults (persisted via host) -->
+<script>
+const TWEAK_DEFAULS = /*EDITMODE-BEGIN*/{
+  "phase": "full"
+}/*EDITMODE-END*/;
+</script>
+
+<!-- Star field generator -->
+<script>
+(function generateStars() {
+  const field = document.getElementById('starfield');
+  const count = 140;
+  const sizes = ['small', '', 'large'];
+  for (let i = 0; i < count; i++) {
+    const star = document.createElement('div');
+    const sz = sizes[Math.floor(Math.random() * sizes.length)];
+    star.className = 'star' + (sz ? ' ' + sz : '');
+    star.style.left = Math.random() * 100 + '%';
+    star.style.top = Math.random() * 100 + '%';
+    const dur = 3 + Math.random() * 5;
+    const delay = Math.random() * 6;
+    const op = 0.4 + Math.random() * 0.5;
+    star.style.animationDuration = dur + 's';
+    star.style.animationDelay = delay + 's';
+    star.style.setProperty('--star-op', op);
+    field.appendChild(star);
+  }
+  // a few drifting slow stars
+  for (let i = 0; i < 10; i++) {
+    const d = document.createElement('div');
+    d.className = 'drift';
+    d.style.left = Math.random() * 100 + '%';
+    d.style.top = -10 + Math.random() * 20 + '%';
+    d.style.animationDuration = (60 + Math.random() * 90) + 's';
+    d.style.animationDelay = (Math.random() * 40) + 's';
+    const s = document.createElement('div');
+    s.className = 'star large';
+    s.style.animationDuration = '5s';
+    s.style.setProperty('--star-op', 0.6);
+    d.appendChild(s);
+    field.appendChild(d);
+  }
+})();
+</script>
+
+<!-- Moon phase controller + Tweaks protocol -->
+<script>
+const PHASE_MAP = {
+  full:     { x: '150%', r: '0%',  op: 0 },
+  half:     { x: '0%',   r: '50%', op: 0.98 },
+  crescent: { x: '30%',  r: '35%', op: 0.98 },
+  new:      { x: '50%',  r: '48%', op: 0.98 },
+};
+
+function applyPhase(phase) {
+  const p = PHASE_MAP[phase] || PHASE_MAP.full;
+  const moons = document.querySelectorAll('.moon, .mini-moon, .sample-moon, .big-moon, .icon-moon');
+  moons.forEach(m => {
+    m.style.setProperty('--phase-x', p.x);
+    m.style.setProperty('--phase-r', p.r);
+    m.style.setProperty('--phase-op', p.op);
+  });
+  // also update the hero moon explicitly (it's most visible)
+  const hero = document.getElementById('hero-moon');
+  if (hero) {
+    hero.style.setProperty('--phase-x', p.x);
+    hero.style.setProperty('--phase-r', p.r);
+    hero.style.setProperty('--phase-op', p.op);
+  }
+  // active button
+  document.querySelectorAll('.phase-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.phase === phase);
+  });
+}
+
+// Initial phase from tweak defaults
+applyPhase(TWEAK_DEFAULS.phase || 'full');
+
+// Tweak buttons
+document.querySelectorAll('.phase-btn').forEach(b => {
+  b.addEventListener('click', () => {
+    const phase = b.dataset.phase;
+    applyPhase(phase);
+    window.parent.postMessage({ type: '__edit_mode_set_keys', edits: { phase } }, '*');
+  });
+});
+
+// Tweaks host protocol: register listener FIRST, then announce
+window.addEventListener('message', (e) => {
+  const d = e.data || {};
+  if (d.type === '__activate_edit_mode') {
+    document.getElementById('tweaks').classList.add('visible');
+  } else if (d.type === '__deactivate_edit_mode') {
+    document.getElementById('tweaks').classList.remove('visible');
+  }
+});
+window.parent.postMessage({ type: '__edit_mode_available' }, '*');
+
+// Smooth-scroll nav
+document.querySelectorAll('nav.top a[href^="#"]').forEach(a => {
+  a.addEventListener('click', (e) => {
+    const id = a.getAttribute('href').slice(1);
+    const t = document.getElementById(id);
+    if (t) {
+      e.preventDefault();
+      t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      document.querySelectorAll('nav.top a').forEach(x => x.classList.remove('active'));
+      a.classList.add('active');
+    }
+  });
+});
+
+// Re-apply phase after React mounts additional moons
+setTimeout(() => applyPhase(TWEAK_DEFAULS.phase || 'full'), 400);
+setTimeout(() => applyPhase(TWEAK_DEFAULS.phase || 'full'), 1500);
+</script>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script type="text/babel" src="constellation.jsx"></script>
+<script type="text/babel" src="submission.jsx"></script>
+<script type="text/babel">
+  ReactDOM.createRoot(document.getElementById('gallery-root')).render(<window.ConstellationGallery />);
+  ReactDOM.createRoot(document.getElementById('submit-root')).render(<window.SubmissionFlow />);
+  // re-apply phase after render so dynamically-added moons pick it up
+  setTimeout(() => applyPhase(TWEAK_DEFAULS.phase || 'full'), 200);
+</script>
+
+</body>
+</html>
